@@ -1,0 +1,2 @@
+- [Little Minds Project Context](project-littleminds.md) — Domínio de educação emocional infantil
+- [Domain Layer Architecture](domain-architecture.md) — Estrutura e padrões do domínio

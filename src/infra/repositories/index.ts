@@ -1,0 +1,9 @@
+export { UserRepositoryImpl } from './user.repository';
+export { ForumPostRepositoryImpl } from './forum-post.repository';
+export { CommentRepositoryImpl } from './comment.repository';
+export { PostSupportRepositoryImpl } from './post-support.repository';
+export { ArticleRepositoryImpl } from './article.repository';
+export { ConversationRepositoryImpl } from './conversation.repository';
+export { MessageRepositoryImpl } from './message.repository';
+export { MessageVersionRepositoryImpl } from './message-version.repository';
+export { RepositoriesModule } from './repositories.module';
