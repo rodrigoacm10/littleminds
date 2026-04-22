@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { ForumPostRepository } from '../../../domain';
+import { Injectable, Inject } from '@nestjs/common';
+import { ForumPostRepository, FORUM_POST_REPOSITORY } from '../../../domain';
 
 /**
  * FindForumPostByIdUseCase
@@ -8,7 +8,10 @@ import { ForumPostRepository } from '../../../domain';
  */
 @Injectable()
 export class FindForumPostByIdUseCase {
-  constructor(private readonly forumPostRepository: ForumPostRepository) {}
+  constructor(
+    @Inject(FORUM_POST_REPOSITORY)
+    private readonly forumPostRepository: ForumPostRepository,
+  ) {}
 
   async execute(input: FindForumPostByIdInput): Promise<FindForumPostByIdOutput> {
     const post = await this.forumPostRepository.findById(input.id);

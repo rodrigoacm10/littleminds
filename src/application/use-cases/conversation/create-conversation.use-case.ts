@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { Conversation, ConversationRepository, UserRepository } from '../../../domain';
+import { Injectable, Inject } from '@nestjs/common';
+import { Conversation, ConversationRepository, UserRepository, CONVERSATION_REPOSITORY, USER_REPOSITORY } from '../../../domain';
 
 /**
  * CreateConversationUseCase
@@ -13,7 +13,9 @@ import { Conversation, ConversationRepository, UserRepository } from '../../../d
 @Injectable()
 export class CreateConversationUseCase {
   constructor(
+    @Inject(CONVERSATION_REPOSITORY)
     private readonly conversationRepository: ConversationRepository,
+    @Inject(USER_REPOSITORY)
     private readonly userRepository: UserRepository,
   ) {}
 

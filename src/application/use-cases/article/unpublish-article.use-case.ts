@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { ArticleRepository } from '../../../domain';
+import { Injectable, Inject } from '@nestjs/common';
+import { ArticleRepository, ARTICLE_REPOSITORY } from '../../../domain';
 
 /**
  * UnpublishArticleUseCase
@@ -13,7 +13,10 @@ import { ArticleRepository } from '../../../domain';
  */
 @Injectable()
 export class UnpublishArticleUseCase {
-  constructor(private readonly articleRepository: ArticleRepository) {}
+  constructor(
+    @Inject(ARTICLE_REPOSITORY)
+    private readonly articleRepository: ArticleRepository,
+  ) {}
 
   async execute(input: UnpublishArticleInput): Promise<UnpublishArticleOutput> {
     const article = await this.articleRepository.findById(input.id);

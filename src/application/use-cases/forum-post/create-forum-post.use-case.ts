@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { ForumPost, ForumPostRepository, UserRepository, AgeGroup } from '../../../domain';
+import { Injectable, Inject } from '@nestjs/common';
+import { ForumPost, ForumPostRepository, UserRepository, AgeGroup, FORUM_POST_REPOSITORY, USER_REPOSITORY } from '../../../domain';
 
 /**
  * CreateForumPostUseCase
@@ -14,7 +14,9 @@ import { ForumPost, ForumPostRepository, UserRepository, AgeGroup } from '../../
 @Injectable()
 export class CreateForumPostUseCase {
   constructor(
+    @Inject(FORUM_POST_REPOSITORY)
     private readonly forumPostRepository: ForumPostRepository,
+    @Inject(USER_REPOSITORY)
     private readonly userRepository: UserRepository,
   ) {}
 

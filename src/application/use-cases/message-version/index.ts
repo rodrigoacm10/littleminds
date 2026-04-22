@@ -1,6 +1,12 @@
+export { CreateMessageVersionUseCase } from './create-message-version.use-case';
+export type { CreateMessageVersionInput, CreateMessageVersionOutput } from './create-message-version.use-case';
 export { FindMessageVersionByIdUseCase } from './find-message-version-by-id.use-case';
 export type { FindMessageVersionByIdInput, FindMessageVersionByIdOutput } from './find-message-version-by-id.use-case';
+export { FindAllMessageVersionsUseCase } from './find-all-message-versions.use-case';
+export type { FindAllMessageVersionsInput, FindAllMessageVersionsOutput } from './find-all-message-versions.use-case';
 export { FindMessageHistoryUseCase } from './find-message-history.use-case';
 export type { FindMessageHistoryInput, FindMessageHistoryOutput } from './find-message-history.use-case';
 export { FindCurrentMessageContentUseCase } from './find-current-message-content.use-case';
 export type { FindCurrentMessageContentInput, FindCurrentMessageContentOutput } from './find-current-message-content.use-case';
+export { DeleteMessageVersionUseCase } from './delete-message-version.use-case';
+export type { DeleteMessageVersionInput, DeleteMessageVersionOutput } from './delete-message-version.use-case';

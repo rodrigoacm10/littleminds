@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { Message, MessageRepository, ConversationRepository, MessageVersion, MessageVersionRepository, MessageRole } from '../../../domain';
+import { Injectable, Inject } from '@nestjs/common';
+import { Message, MessageRepository, ConversationRepository, MessageVersion, MessageVersionRepository, MessageRole, MESSAGE_REPOSITORY, MESSAGE_VERSION_REPOSITORY, CONVERSATION_REPOSITORY } from '../../../domain';
 
 /**
  * CreateMessageUseCase
@@ -14,8 +14,11 @@ import { Message, MessageRepository, ConversationRepository, MessageVersion, Mes
 @Injectable()
 export class CreateMessageUseCase {
   constructor(
+    @Inject(MESSAGE_REPOSITORY)
     private readonly messageRepository: MessageRepository,
+    @Inject(MESSAGE_VERSION_REPOSITORY)
     private readonly messageVersionRepository: MessageVersionRepository,
+    @Inject(CONVERSATION_REPOSITORY)
     private readonly conversationRepository: ConversationRepository,
   ) {}
 

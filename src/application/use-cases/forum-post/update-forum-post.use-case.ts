@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { ForumPostRepository, AgeGroup } from '../../../domain';
+import { Injectable, Inject } from '@nestjs/common';
+import { ForumPostRepository, AgeGroup, FORUM_POST_REPOSITORY } from '../../../domain';
 
 /**
  * UpdateForumPostUseCase
@@ -12,7 +12,10 @@ import { ForumPostRepository, AgeGroup } from '../../../domain';
  */
 @Injectable()
 export class UpdateForumPostUseCase {
-  constructor(private readonly forumPostRepository: ForumPostRepository) {}
+  constructor(
+    @Inject(FORUM_POST_REPOSITORY)
+    private readonly forumPostRepository: ForumPostRepository,
+  ) {}
 
   async execute(input: UpdateForumPostInput): Promise<UpdateForumPostOutput> {
     const post = await this.forumPostRepository.findById(input.id);

@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { Article, ArticleRepository, UserRepository, AgeGroup } from '../../../domain';
+import { Injectable, Inject } from '@nestjs/common';
+import { Article, ArticleRepository, UserRepository, AgeGroup, ARTICLE_REPOSITORY, USER_REPOSITORY } from '../../../domain';
 
 /**
  * CreateArticleUseCase
@@ -14,7 +14,9 @@ import { Article, ArticleRepository, UserRepository, AgeGroup } from '../../../d
 @Injectable()
 export class CreateArticleUseCase {
   constructor(
+    @Inject(ARTICLE_REPOSITORY)
     private readonly articleRepository: ArticleRepository,
+    @Inject(USER_REPOSITORY)
     private readonly userRepository: UserRepository,
   ) {}
 

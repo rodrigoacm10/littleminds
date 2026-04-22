@@ -6,3 +6,4 @@ export * from './article.repository.interface';
 export * from './conversation.repository.interface';
 export * from './message.repository.interface';
 export * from './message-version.repository.interface';
+export * from './injection-tokens';

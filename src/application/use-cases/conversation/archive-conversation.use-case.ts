@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { ConversationRepository } from '../../../domain';
+import { Injectable, Inject } from '@nestjs/common';
+import { ConversationRepository, CONVERSATION_REPOSITORY } from '../../../domain';
 
 /**
  * ArchiveConversationUseCase
@@ -12,7 +12,10 @@ import { ConversationRepository } from '../../../domain';
  */
 @Injectable()
 export class ArchiveConversationUseCase {
-  constructor(private readonly conversationRepository: ConversationRepository) {}
+  constructor(
+    @Inject(CONVERSATION_REPOSITORY)
+    private readonly conversationRepository: ConversationRepository,
+  ) {}
 
   async execute(input: ArchiveConversationInput): Promise<ArchiveConversationOutput> {
     const conversation = await this.conversationRepository.findById(input.id);

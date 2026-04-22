@@ -56,3 +56,15 @@ export type {
   MessageRepository,
   MessageVersionRepository,
 } from './repositories';
+
+// Injection Tokens
+export {
+  USER_REPOSITORY,
+  FORUM_POST_REPOSITORY,
+  COMMENT_REPOSITORY,
+  POST_SUPPORT_REPOSITORY,
+  ARTICLE_REPOSITORY,
+  CONVERSATION_REPOSITORY,
+  MESSAGE_REPOSITORY,
+  MESSAGE_VERSION_REPOSITORY,
+} from './repositories';

@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { Comment, CommentRepository, ForumPostRepository, UserRepository } from '../../../domain';
+import { Injectable, Inject } from '@nestjs/common';
+import { Comment, CommentRepository, ForumPostRepository, UserRepository, COMMENT_REPOSITORY, FORUM_POST_REPOSITORY, USER_REPOSITORY } from '../../../domain';
 
 /**
  * CreateCommentUseCase
@@ -14,8 +14,11 @@ import { Comment, CommentRepository, ForumPostRepository, UserRepository } from 
 @Injectable()
 export class CreateCommentUseCase {
   constructor(
+    @Inject(COMMENT_REPOSITORY)
     private readonly commentRepository: CommentRepository,
+    @Inject(FORUM_POST_REPOSITORY)
     private readonly forumPostRepository: ForumPostRepository,
+    @Inject(USER_REPOSITORY)
     private readonly userRepository: UserRepository,
   ) {}
 

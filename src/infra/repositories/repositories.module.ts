@@ -10,6 +10,16 @@ import {
   MessageRepositoryImpl,
   MessageVersionRepositoryImpl,
 } from './index';
+import {
+  USER_REPOSITORY,
+  FORUM_POST_REPOSITORY,
+  COMMENT_REPOSITORY,
+  POST_SUPPORT_REPOSITORY,
+  ARTICLE_REPOSITORY,
+  CONVERSATION_REPOSITORY,
+  MESSAGE_REPOSITORY,
+  MESSAGE_VERSION_REPOSITORY,
+} from '../../domain/repositories';
 
 /**
  * RepositoriesModule
@@ -35,25 +45,49 @@ import {
 @Global()
 @Module({
   providers: [
-    UserRepositoryImpl,
-    ForumPostRepositoryImpl,
-    CommentRepositoryImpl,
-    PostSupportRepositoryImpl,
-    ArticleRepositoryImpl,
-    ConversationRepositoryImpl,
-    MessageRepositoryImpl,
-    MessageVersionRepositoryImpl,
     PrismaService,
+    {
+      provide: USER_REPOSITORY,
+      useClass: UserRepositoryImpl,
+    },
+    {
+      provide: FORUM_POST_REPOSITORY,
+      useClass: ForumPostRepositoryImpl,
+    },
+    {
+      provide: COMMENT_REPOSITORY,
+      useClass: CommentRepositoryImpl,
+    },
+    {
+      provide: POST_SUPPORT_REPOSITORY,
+      useClass: PostSupportRepositoryImpl,
+    },
+    {
+      provide: ARTICLE_REPOSITORY,
+      useClass: ArticleRepositoryImpl,
+    },
+    {
+      provide: CONVERSATION_REPOSITORY,
+      useClass: ConversationRepositoryImpl,
+    },
+    {
+      provide: MESSAGE_REPOSITORY,
+      useClass: MessageRepositoryImpl,
+    },
+    {
+      provide: MESSAGE_VERSION_REPOSITORY,
+      useClass: MessageVersionRepositoryImpl,
+    },
   ],
   exports: [
-    UserRepositoryImpl,
-    ForumPostRepositoryImpl,
-    CommentRepositoryImpl,
-    PostSupportRepositoryImpl,
-    ArticleRepositoryImpl,
-    ConversationRepositoryImpl,
-    MessageRepositoryImpl,
-    MessageVersionRepositoryImpl,
+    USER_REPOSITORY,
+    FORUM_POST_REPOSITORY,
+    COMMENT_REPOSITORY,
+    POST_SUPPORT_REPOSITORY,
+    ARTICLE_REPOSITORY,
+    CONVERSATION_REPOSITORY,
+    MESSAGE_REPOSITORY,
+    MESSAGE_VERSION_REPOSITORY,
   ],
 })
 export class RepositoriesModule {}

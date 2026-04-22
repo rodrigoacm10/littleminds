@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { ArticleRepository, AgeGroup } from '../../../domain';
+import { Injectable, Inject } from '@nestjs/common';
+import { ArticleRepository, AgeGroup, ARTICLE_REPOSITORY } from '../../../domain';
 
 /**
  * UpdateArticleUseCase
@@ -12,7 +12,10 @@ import { ArticleRepository, AgeGroup } from '../../../domain';
  */
 @Injectable()
 export class UpdateArticleUseCase {
-  constructor(private readonly articleRepository: ArticleRepository) {}
+  constructor(
+    @Inject(ARTICLE_REPOSITORY)
+    private readonly articleRepository: ArticleRepository,
+  ) {}
 
   async execute(input: UpdateArticleInput): Promise<UpdateArticleOutput> {
     const article = await this.articleRepository.findById(input.id);

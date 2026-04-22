@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { CommentRepository } from '../../../domain';
+import { Injectable, Inject } from '@nestjs/common';
+import { CommentRepository, COMMENT_REPOSITORY } from '../../../domain';
 
 /**
  * UpdateCommentUseCase
@@ -12,7 +12,10 @@ import { CommentRepository } from '../../../domain';
  */
 @Injectable()
 export class UpdateCommentUseCase {
-  constructor(private readonly commentRepository: CommentRepository) {}
+  constructor(
+    @Inject(COMMENT_REPOSITORY)
+    private readonly commentRepository: CommentRepository,
+  ) {}
 
   async execute(input: UpdateCommentInput): Promise<UpdateCommentOutput> {
     const comment = await this.commentRepository.findById(input.id);

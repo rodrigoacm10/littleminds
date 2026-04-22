@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { ArticleRepository, AgeGroup } from '../../../domain';
+import { Injectable, Inject } from '@nestjs/common';
+import { ArticleRepository, AgeGroup, ARTICLE_REPOSITORY } from '../../../domain';
 
 /**
  * FindAllArticlesUseCase
@@ -9,7 +9,10 @@ import { ArticleRepository, AgeGroup } from '../../../domain';
  */
 @Injectable()
 export class FindAllArticlesUseCase {
-  constructor(private readonly articleRepository: ArticleRepository) {}
+  constructor(
+    @Inject(ARTICLE_REPOSITORY)
+    private readonly articleRepository: ArticleRepository,
+  ) {}
 
   async execute(input?: FindAllArticlesInput): Promise<FindAllArticlesOutput> {
     let articles;

@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { UserRepository } from '../../../domain';
+import { Injectable, Inject } from '@nestjs/common';
+import { UserRepository, USER_REPOSITORY } from '../../../domain';
 
 /**
  * FindUserByEmailUseCase
@@ -8,7 +8,10 @@ import { UserRepository } from '../../../domain';
  */
 @Injectable()
 export class FindUserByEmailUseCase {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    @Inject(USER_REPOSITORY)
+    private readonly userRepository: UserRepository,
+  ) {}
 
   async execute(input: FindUserByEmailInput): Promise<FindUserByEmailOutput> {
     const user = await this.userRepository.findByEmail(input.email);

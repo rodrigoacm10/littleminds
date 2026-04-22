@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { PostSupportRepository } from '../../../domain';
+import { Injectable, Inject } from '@nestjs/common';
+import { PostSupportRepository, POST_SUPPORT_REPOSITORY } from '../../../domain';
 
 /**
  * CheckUserSupportUseCase
@@ -8,7 +8,10 @@ import { PostSupportRepository } from '../../../domain';
  */
 @Injectable()
 export class CheckUserSupportUseCase {
-  constructor(private readonly postSupportRepository: PostSupportRepository) {}
+  constructor(
+    @Inject(POST_SUPPORT_REPOSITORY)
+    private readonly postSupportRepository: PostSupportRepository,
+  ) {}
 
   async execute(input: CheckUserSupportInput): Promise<CheckUserSupportOutput> {
     const hasSupported = await this.postSupportRepository.existsByUserAndPost(
