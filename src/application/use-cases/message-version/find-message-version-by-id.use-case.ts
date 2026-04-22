@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { MessageVersionRepository } from '../../../domain';
+import { Injectable, Inject } from '@nestjs/common';
+import { MessageVersionRepository, MESSAGE_VERSION_REPOSITORY } from '../../../domain';
 
 /**
  * FindMessageVersionByIdUseCase
@@ -8,7 +8,10 @@ import { MessageVersionRepository } from '../../../domain';
  */
 @Injectable()
 export class FindMessageVersionByIdUseCase {
-  constructor(private readonly messageVersionRepository: MessageVersionRepository) {}
+  constructor(
+    @Inject(MESSAGE_VERSION_REPOSITORY)
+    private readonly messageVersionRepository: MessageVersionRepository,
+  ) {}
 
   async execute(input: FindMessageVersionByIdInput): Promise<FindMessageVersionByIdOutput> {
     const version = await this.messageVersionRepository.findById(input.id);

@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { MessageRepository } from '../../../domain';
+import { Injectable, Inject } from '@nestjs/common';
+import { MessageRepository, MESSAGE_REPOSITORY } from '../../../domain';
 
 /**
  * DeleteMessageUseCase
@@ -12,7 +12,10 @@ import { MessageRepository } from '../../../domain';
  */
 @Injectable()
 export class DeleteMessageUseCase {
-  constructor(private readonly messageRepository: MessageRepository) {}
+  constructor(
+    @Inject(MESSAGE_REPOSITORY)
+    private readonly messageRepository: MessageRepository,
+  ) {}
 
   async execute(input: DeleteMessageInput): Promise<DeleteMessageOutput> {
     const message = await this.messageRepository.findById(input.id);

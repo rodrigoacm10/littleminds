@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { MessageRepository, MessageVersionRepository, MessageVersion } from '../../../domain';
+import { Injectable, Inject } from '@nestjs/common';
+import { MessageRepository, MessageVersionRepository, MessageVersion, MESSAGE_REPOSITORY, MESSAGE_VERSION_REPOSITORY } from '../../../domain';
 
 /**
  * EditMessageUseCase
@@ -15,7 +15,9 @@ import { MessageRepository, MessageVersionRepository, MessageVersion } from '../
 @Injectable()
 export class EditMessageUseCase {
   constructor(
+    @Inject(MESSAGE_REPOSITORY)
     private readonly messageRepository: MessageRepository,
+    @Inject(MESSAGE_VERSION_REPOSITORY)
     private readonly messageVersionRepository: MessageVersionRepository,
   ) {}
 
