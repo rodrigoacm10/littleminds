@@ -4,54 +4,164 @@
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider     = "prisma-client"
+  output       = "../generated/prisma"
+  moduleFormat = "cjs"
 }
 
 datasource db {
   provider = "postgresql"
 }
 
+enum Role {
+  PARENT      // Pai/Mãe (Consumidor/Relatos)
+  SPECIALIST  // Especialista (Pode publicar artigos)
+  ADMIN
+}
+
+enum AgeGroup {
+  PRENATAL      // Gestação
+  BABY          // 0 a 2 anos
+  TODDLER       // 3 a 5 anos (Primeira Infância)
+  CHILD         // 6 a 12 anos
+  TEENAGER      // 13+ anos
+}
+
+enum MessageRole {
+  user
+  assistant
+}
+
+// --- ENTIDADES PRINCIPAIS ---
+
 model User {
-  id String @id @default(uuid())
-  name String
-  email String
-  password String
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(PARENT)
+
+  forumPosts    ForumPost[]
+  comments      Comment[]
+  articles      Article[]
+  supportedPosts PostSupport[] // Relacionamento para os posts que o usuário curtiu/apoiou
+  conversations Conversation[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("users")
 }
 
-  model Conversation {
-    id        String     @id @default(uuid())
-    userId    String     @map("user_id")
-    title     String
-    messages  Message[]
-    isArchived Boolean   @default(false)
-    createdAt DateTime   @default(now())
-    updatedAt DateTime   @updatedAt
-  }
+// --- FÓRUM (COMUNIDADE E TROCA DE VIVÊNCIAS) ---
 
-  model Message {
-    id             String          @id @default(uuid())
-    conversationId String
-    role           MessageRole
-    isDeleted      Boolean         @default(false)
-    versions       MessageVersion[]
+model ForumPost {
+  id          String    @id @default(uuid())
+  title       String
+  content     String    @db.Text
+  authorId    String
+  ageGroup    AgeGroup? // Opcional: A experiência é sobre qual fase?
+  
+  author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  comments    Comment[]
+  supports    PostSupport[] // "Likes" ou "Abraços virtuais" da comunidade
 
-    conversation   Conversation    @relation(fields: [conversationId], references: [id])
-  }
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
-  model MessageVersion {
-    id        String   @id
-    messageId String
-    message   Message  @relation(fields: [messageId], references: [id])
-    content   String   @db.Text
-    editedBy  String   // 'user' ou 'system'
-    createdAt DateTime @default(now())
-  }
+  @@map("forum_posts")
+}
 
-  enum MessageRole {
-    user
-    assistant
-  }
+model Comment {
+  id        String   @id @default(uuid())
+  content   String   @db.Text
+  postId    String
+  authorId  String
+
+  post      ForumPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("comments")
+}
+
+// Entidade para registrar os "Likes" / Apoio em um post
+model PostSupport {
+  id        String   @id @default(uuid())
+  userId    String
+  postId    String
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post      ForumPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime  @default(now())
+
+  // Garante que um usuário só pode apoiar um post específico uma única vez
+  @@unique([userId, postId])
+  @@map("post_supports")
+}
+
+// --- ARTIGOS (ESTUDO APROFUNDADO) ---
+
+model Article {
+  id          String    @id @default(uuid())
+  title       String
+  summary     String?   @db.Text // Resumo para o card no front-end
+  content     String    @db.Text
+  coverImage  String?   // URL da imagem de capa
+  isPublished Boolean   @default(false)
+  ageGroup    AgeGroup? // Foco principal do artigo
+  authorId    String
+
+  author      User      @relation(fields: [authorId], references: [id])
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("articles")
+}
+
+// --- IA CHATBOT (REDE DE APOIO DIÁRIA) ---
+
+model Conversation {
+  id         String     @id @default(uuid())
+  userId     String     @map("user_id")
+  title      String
+  isArchived Boolean    @default(false)
+  
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages   Message[]
+
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+
+  @@map("conversations")
+}
+
+model Message {
+  id             String           @id @default(uuid())
+  conversationId String
+  role           MessageRole
+  isDeleted      Boolean          @default(false)
+  createdAt      DateTime         @default(now())
+
+  conversation   Conversation     @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  versions       MessageVersion[]
+
+  @@map("messages")
+}
+
+model MessageVersion {
+  id        String   @id @default(uuid())
+  messageId String
+  content   String   @db.Text
+  editedBy  String   // 'user' ou 'system'
+  
+  message   Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+
+  @@map("message_versions")
+}

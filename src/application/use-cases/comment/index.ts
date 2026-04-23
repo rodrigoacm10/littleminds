@@ -1,0 +1,10 @@
+export { CreateCommentUseCase } from './create-comment.use-case';
+export type { CreateCommentInput, CreateCommentOutput } from './create-comment.use-case';
+export { FindCommentByIdUseCase } from './find-comment-by-id.use-case';
+export type { FindCommentByIdInput, FindCommentByIdOutput } from './find-comment-by-id.use-case';
+export { FindAllCommentsUseCase } from './find-all-comments.use-case';
+export type { FindAllCommentsInput, FindAllCommentsOutput } from './find-all-comments.use-case';
+export { UpdateCommentUseCase } from './update-comment.use-case';
+export type { UpdateCommentInput, UpdateCommentOutput } from './update-comment.use-case';
+export { DeleteCommentUseCase } from './delete-comment.use-case';
+export type { DeleteCommentInput, DeleteCommentOutput } from './delete-comment.use-case';
