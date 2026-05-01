@@ -34,6 +34,7 @@ import {
 } from '../../application/use-cases';
 import {
   CreateConversationData,
+  ConversationDetailResponse,
   UpdateConversationTitleData,
   ConversationSingleResponse,
   ConversationListResponse,
@@ -96,7 +97,7 @@ export class ConversationController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Buscar conversa por ID' })
   @ApiParam({ name: 'id', description: 'ID da conversa', example: 'conv12345-e89b-12d3-a456-426614174003' })
-  @ApiResponse({ status: 200, description: 'Conversa encontrada', type: ConversationSingleResponse })
+  @ApiResponse({ status: 200, description: 'Conversa encontrada', type: ConversationDetailResponse })
   @ApiResponse({ status: 404, description: 'Conversa não encontrada', type: ErrorResponse })
   async findOne(@Param('id') id: string, @Req() request: AuthenticatedRequest) {
     const result = await this.findConversationByIdUseCase.execute({ id });

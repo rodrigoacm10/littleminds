@@ -25,7 +25,7 @@ export class ConversationResponse {
   title: string;
 
   @ApiProperty({ description: 'Indica se a conversa está arquivada', example: false })
-  archived: boolean;
+  isArchived: boolean;
 
   @ApiProperty({ description: 'Data de criação', example: '2024-01-15T10:30:00Z' })
   createdAt: Date;
@@ -39,15 +39,7 @@ export class ConversationListResponse {
   success: boolean;
 
   @ApiProperty({ description: 'Lista de conversas', type: [ConversationResponse] })
-  data: ConversationResponse[];
-}
-
-export class ConversationSingleResponse {
-  @ApiProperty({ description: 'Status da operação', example: true })
-  success: boolean;
-
-  @ApiProperty({ description: 'Dados da conversa', type: ConversationResponse })
-  data: ConversationResponse;
+  conversations: ConversationResponse[];
 }
 
 export class SendMessageToConversationData {
@@ -74,6 +66,27 @@ export class ChatMessageResponse {
 
   @ApiProperty({ description: 'Data de criacao', example: '2024-01-15T10:30:00Z' })
   createdAt: Date;
+}
+
+export class ConversationWithMessagesResponse extends ConversationResponse {
+  @ApiProperty({ description: 'Mensagens da conversa', type: [ChatMessageResponse] })
+  messages: ChatMessageResponse[];
+}
+
+export class ConversationSingleResponse {
+  @ApiProperty({ description: 'Status da operação', example: true })
+  success: boolean;
+
+  @ApiProperty({ description: 'Conversa retornada', type: ConversationResponse })
+  conversation: ConversationResponse;
+}
+
+export class ConversationDetailResponse {
+  @ApiProperty({ description: 'Status da operação', example: true })
+  success: boolean;
+
+  @ApiProperty({ description: 'Conversa encontrada', type: ConversationWithMessagesResponse })
+  conversation: ConversationWithMessagesResponse;
 }
 
 export class SendMessageToConversationResponse {
