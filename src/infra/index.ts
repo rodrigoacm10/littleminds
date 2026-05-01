@@ -30,5 +30,8 @@ export {
   RepositoriesModule,
 } from './repositories';
 
+// AI
+export { AIModule, GeminiChatService } from './ai';
+
 // Module principal
 export { InfrastructureModule } from './infra.module';

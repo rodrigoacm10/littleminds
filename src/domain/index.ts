@@ -57,6 +57,9 @@ export type {
   MessageVersionRepository,
 } from './repositories';
 
+// Service Interfaces
+export type { AIChatService, AIChatMessage } from './services';
+
 // Injection Tokens
 export {
   USER_REPOSITORY,
@@ -68,3 +71,5 @@ export {
   MESSAGE_REPOSITORY,
   MESSAGE_VERSION_REPOSITORY,
 } from './repositories';
+
+export { AI_CHAT_SERVICE } from './services';

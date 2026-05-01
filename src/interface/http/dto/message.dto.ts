@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsString, IsUUID, IsEnum } from 'class-validator';
+import { IsString, IsUUID, IsOptional } from 'class-validator';
 import { MessageRole } from '../../../domain';
 
 export class CreateMessageData {
@@ -7,15 +7,12 @@ export class CreateMessageData {
   @IsUUID()
   conversationId: string;
 
-  @ApiProperty({ description: 'Papel do remetente', enum: MessageRole, example: MessageRole.USER })
-  @IsEnum(MessageRole)
-  role: MessageRole;
-
   @ApiProperty({ description: 'Conteúdo da mensagem', example: 'Olá, tenho uma dúvida sobre o artigo.' })
   @IsString()
   content: string;
 
   @ApiPropertyOptional({ description: 'ID de quem editou a mensagem', example: '123e4567-e89b-12d3-a456-426614174000' })
+  @IsOptional()
   @IsUUID()
   editedBy?: string;
 }
@@ -26,6 +23,7 @@ export class EditMessageData {
   content: string;
 
   @ApiPropertyOptional({ description: 'ID de quem editou a mensagem', example: '123e4567-e89b-12d3-a456-426614174000' })
+  @IsOptional()
   @IsUUID()
   editedBy?: string;
 }

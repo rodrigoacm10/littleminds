@@ -8,8 +8,17 @@ import {
   ArchiveConversationUseCase,
   UnarchiveConversationUseCase,
   DeleteConversationUseCase,
+  SendMessageToConversationUseCase,
 } from '../../application/use-cases';
-import { CreateConversationData, UpdateConversationTitleData, ConversationSingleResponse, ConversationListResponse, ErrorResponse } from './dto';
+import {
+  CreateConversationData,
+  UpdateConversationTitleData,
+  ConversationSingleResponse,
+  ConversationListResponse,
+  ErrorResponse,
+  SendMessageToConversationData,
+  SendMessageToConversationResponse,
+} from './dto';
 
 @ApiTags('Conversations')
 @Controller('conversations')
@@ -22,6 +31,7 @@ export class ConversationController {
     private readonly archiveConversationUseCase: ArchiveConversationUseCase,
     private readonly unarchiveConversationUseCase: UnarchiveConversationUseCase,
     private readonly deleteConversationUseCase: DeleteConversationUseCase,
+    private readonly sendMessageToConversationUseCase: SendMessageToConversationUseCase,
   ) {}
 
   @Post()
@@ -98,6 +108,22 @@ export class ConversationController {
   @ApiResponse({ status: 404, description: 'Conversa não encontrada', type: ErrorResponse })
   async unarchive(@Param('id') id: string, @Query('requesterId') requesterId?: string) {
     const result = await this.unarchiveConversationUseCase.execute({ id, requesterId: requesterId! });
+    return result;
+  }
+
+  @Post(':id/chat')
+  @HttpCode(HttpStatus.CREATED)
+  @ApiOperation({ summary: 'Enviar mensagem do usuario e receber resposta da IA' })
+  @ApiParam({ name: 'id', description: 'ID da conversa', example: 'conv12345-e89b-12d3-a456-426614174003' })
+  @ApiBody({ type: SendMessageToConversationData })
+  @ApiResponse({ status: 201, description: 'Mensagem processada com sucesso', type: SendMessageToConversationResponse })
+  @ApiResponse({ status: 404, description: 'Conversa nao encontrada', type: ErrorResponse })
+  async chat(@Param('id') id: string, @Body() body: SendMessageToConversationData) {
+    const result = await this.sendMessageToConversationUseCase.execute({
+      conversationId: id,
+      userId: body.userId,
+      content: body.content,
+    });
     return result;
   }
 

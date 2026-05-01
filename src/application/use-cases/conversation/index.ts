@@ -12,3 +12,8 @@ export { UnarchiveConversationUseCase } from './unarchive-conversation.use-case'
 export type { UnarchiveConversationInput, UnarchiveConversationOutput } from './unarchive-conversation.use-case';
 export { DeleteConversationUseCase } from './delete-conversation.use-case';
 export type { DeleteConversationInput, DeleteConversationOutput } from './delete-conversation.use-case';
+export { SendMessageToConversationUseCase } from './send-message-to-conversation.use-case';
+export type {
+  SendMessageToConversationInput,
+  SendMessageToConversationOutput,
+} from './send-message-to-conversation.use-case';

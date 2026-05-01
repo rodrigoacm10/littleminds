@@ -41,6 +41,7 @@ import {
   ArchiveConversationUseCase,
   UnarchiveConversationUseCase,
   DeleteConversationUseCase,
+  SendMessageToConversationUseCase,
   // Message
   CreateMessageUseCase,
   FindMessageByIdUseCase,
@@ -110,6 +111,7 @@ import {
     ArchiveConversationUseCase,
     UnarchiveConversationUseCase,
     DeleteConversationUseCase,
+    SendMessageToConversationUseCase,
     // Message Use Cases
     CreateMessageUseCase,
     FindMessageByIdUseCase,
@@ -166,6 +168,7 @@ import {
     ArchiveConversationUseCase,
     UnarchiveConversationUseCase,
     DeleteConversationUseCase,
+    SendMessageToConversationUseCase,
     // Message Use Cases
     CreateMessageUseCase,
     FindMessageByIdUseCase,

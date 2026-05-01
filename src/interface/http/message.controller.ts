@@ -31,8 +31,10 @@ export class MessageController {
   @ApiResponse({ status: 400, description: 'Dados inválidos', type: ErrorResponse })
   async create(@Body() body: CreateMessageData) {
     const result = await this.createMessageUseCase.execute({
-      ...body,
-      role: body.role as MessageRole,
+      conversationId: body.conversationId,
+      content: body.content,
+      editedBy: body.editedBy,
+      role: MessageRole.USER,
     });
     if (!result.success) {
       return { success: false, error: result.error };
