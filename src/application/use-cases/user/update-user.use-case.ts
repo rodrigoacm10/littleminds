@@ -1,5 +1,10 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { UserRepository, USER_REPOSITORY } from '../../../domain';
+import {
+  PASSWORD_HASHER_SERVICE,
+  PasswordHasherService,
+  UserRepository,
+  USER_REPOSITORY,
+} from '../../../domain';
 
 /**
  * UpdateUserUseCase
@@ -15,6 +20,8 @@ export class UpdateUserUseCase {
   constructor(
     @Inject(USER_REPOSITORY)
     private readonly userRepository: UserRepository,
+    @Inject(PASSWORD_HASHER_SERVICE)
+    private readonly passwordHasherService: PasswordHasherService,
   ) {}
 
   async execute(input: UpdateUserInput): Promise<UpdateUserOutput> {
@@ -43,7 +50,8 @@ export class UpdateUserUseCase {
     }
 
     if (input.password) {
-      const updated = user.updatePassword(input.password);
+      const hashedPassword = await this.passwordHasherService.hash(input.password);
+      const updated = user.updatePassword(hashedPassword);
       if (!updated) {
         return {
           success: false,

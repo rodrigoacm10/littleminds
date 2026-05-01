@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { AIModule } from './ai';
+import { AuthModule } from './auth';
 import { DatabaseModule } from './database';
 import { RepositoriesModule } from './repositories';
 
@@ -18,7 +20,7 @@ import { RepositoriesModule } from './repositories';
  * - RepositoriesModule: Implementações dos repositórios do domínio
  */
 @Module({
-  imports: [DatabaseModule, RepositoriesModule],
-  exports: [DatabaseModule, RepositoriesModule],
+  imports: [DatabaseModule, RepositoriesModule, AIModule, AuthModule],
+  exports: [DatabaseModule, RepositoriesModule, AIModule, AuthModule],
 })
 export class InfrastructureModule {}

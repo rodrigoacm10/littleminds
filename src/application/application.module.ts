@@ -8,6 +8,8 @@ import {
   FindAllUsersUseCase,
   UpdateUserUseCase,
   DeleteUserUseCase,
+  LoginUseCase,
+  RegisterUseCase,
   // ForumPost
   CreateForumPostUseCase,
   FindForumPostByIdUseCase,
@@ -41,6 +43,7 @@ import {
   ArchiveConversationUseCase,
   UnarchiveConversationUseCase,
   DeleteConversationUseCase,
+  SendMessageToConversationUseCase,
   // Message
   CreateMessageUseCase,
   FindMessageByIdUseCase,
@@ -49,9 +52,12 @@ import {
   DeleteMessageUseCase,
   RestoreMessageUseCase,
   // MessageVersion
+  CreateMessageVersionUseCase,
   FindMessageVersionByIdUseCase,
+  FindAllMessageVersionsUseCase,
   FindMessageHistoryUseCase,
   FindCurrentMessageContentUseCase,
+  DeleteMessageVersionUseCase,
 } from './use-cases';
 
 /**
@@ -74,6 +80,8 @@ import {
     FindAllUsersUseCase,
     UpdateUserUseCase,
     DeleteUserUseCase,
+    LoginUseCase,
+    RegisterUseCase,
     // ForumPost Use Cases
     CreateForumPostUseCase,
     FindForumPostByIdUseCase,
@@ -107,6 +115,7 @@ import {
     ArchiveConversationUseCase,
     UnarchiveConversationUseCase,
     DeleteConversationUseCase,
+    SendMessageToConversationUseCase,
     // Message Use Cases
     CreateMessageUseCase,
     FindMessageByIdUseCase,
@@ -115,9 +124,12 @@ import {
     DeleteMessageUseCase,
     RestoreMessageUseCase,
     // MessageVersion Use Cases
+    CreateMessageVersionUseCase,
     FindMessageVersionByIdUseCase,
+    FindAllMessageVersionsUseCase,
     FindMessageHistoryUseCase,
     FindCurrentMessageContentUseCase,
+    DeleteMessageVersionUseCase,
   ],
   exports: [
     // User Use Cases
@@ -127,6 +139,8 @@ import {
     FindAllUsersUseCase,
     UpdateUserUseCase,
     DeleteUserUseCase,
+    LoginUseCase,
+    RegisterUseCase,
     // ForumPost Use Cases
     CreateForumPostUseCase,
     FindForumPostByIdUseCase,
@@ -160,6 +174,7 @@ import {
     ArchiveConversationUseCase,
     UnarchiveConversationUseCase,
     DeleteConversationUseCase,
+    SendMessageToConversationUseCase,
     // Message Use Cases
     CreateMessageUseCase,
     FindMessageByIdUseCase,
@@ -168,9 +183,12 @@ import {
     DeleteMessageUseCase,
     RestoreMessageUseCase,
     // MessageVersion Use Cases
+    CreateMessageVersionUseCase,
     FindMessageVersionByIdUseCase,
+    FindAllMessageVersionsUseCase,
     FindMessageHistoryUseCase,
     FindCurrentMessageContentUseCase,
+    DeleteMessageVersionUseCase,
   ],
 })
 export class ApplicationModule {}

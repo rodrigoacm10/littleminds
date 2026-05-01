@@ -9,6 +9,7 @@
  */
 
 export { UserController } from './user.controller';
+export { AuthController } from './auth.controller';
 export { ForumPostController } from './forum-post.controller';
 export { CommentController } from './comment.controller';
 export { PostSupportController } from './post-support.controller';
