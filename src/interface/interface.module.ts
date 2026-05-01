@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ApplicationModule } from '../application';
 import {
   ArticleController,
+  AuthController,
   CommentController,
   ConversationController,
   ForumPostController,
@@ -14,6 +15,7 @@ import {
 @Module({
   imports: [ApplicationModule],
   controllers: [
+    AuthController,
     UserController,
     ForumPostController,
     CommentController,

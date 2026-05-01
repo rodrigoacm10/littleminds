@@ -2,10 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsUUID } from 'class-validator';
 
 export class CreatePostSupportData {
-  @ApiProperty({ description: 'ID do usuário que está apoiando', example: '123e4567-e89b-12d3-a456-426614174000' })
-  @IsUUID()
-  userId: string;
-
   @ApiProperty({ description: 'ID do post apoiado', example: 'forum12345-e89b-12d3-a456-426614174006' })
   @IsUUID()
   postId: string;

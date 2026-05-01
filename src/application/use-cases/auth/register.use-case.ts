@@ -1,25 +1,15 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import {
   PASSWORD_HASHER_SERVICE,
   PasswordHasherService,
-  User,
-  UserRepository,
   Role,
   USER_REPOSITORY,
+  User,
+  UserRepository,
 } from '../../../domain';
 
-/**
- * CreateUserUseCase
- *
- * Caso de uso para criar um novo usuário no sistema.
- *
- * Regras de negócio:
- * - Email deve ser único
- * - Senha deve ter no mínimo 6 caracteres
- * - Nome é obrigatório
- */
 @Injectable()
-export class CreateUserUseCase {
+export class RegisterUseCase {
   constructor(
     @Inject(USER_REPOSITORY)
     private readonly userRepository: UserRepository,
@@ -27,7 +17,7 @@ export class CreateUserUseCase {
     private readonly passwordHasherService: PasswordHasherService,
   ) {}
 
-  async execute(input: CreateUserInput): Promise<CreateUserOutput> {
+  async execute(input: RegisterInput): Promise<RegisterOutput> {
     const existingUser = await this.userRepository.findByEmail(input.email);
     if (existingUser) {
       return {
@@ -37,7 +27,6 @@ export class CreateUserUseCase {
     }
 
     const hashedPassword = await this.passwordHasherService.hash(input.password);
-
     const user = User.create(
       crypto.randomUUID(),
       input.name,
@@ -68,14 +57,14 @@ export class CreateUserUseCase {
   }
 }
 
-export interface CreateUserInput {
+export interface RegisterInput {
   name: string;
   email: string;
   password: string;
   role?: Role;
 }
 
-export interface CreateUserOutput {
+export interface RegisterOutput {
   success: boolean;
   error?: 'EMAIL_ALREADY_EXISTS' | 'INVALID_DATA';
   user?: {

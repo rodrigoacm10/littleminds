@@ -16,6 +16,9 @@
 // User Use Cases
 export * from './user';
 
+// Auth Use Cases
+export * from './auth';
+
 // ForumPost Use Cases
 export * from './forum-post';
 

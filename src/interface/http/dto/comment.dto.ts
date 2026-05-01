@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsString, IsUUID } from 'class-validator';
+import { IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class CreateCommentData {
   @ApiProperty({ description: 'Conteúdo do comentário', example: 'Excelente artigo! Muito informativo.' })
@@ -10,19 +10,13 @@ export class CreateCommentData {
   @IsUUID()
   postId: string;
 
-  @ApiProperty({ description: 'ID do autor do comentário', example: '123e4567-e89b-12d3-a456-426614174000' })
-  @IsUUID()
-  authorId: string;
 }
 
 export class UpdateCommentData {
   @ApiPropertyOptional({ description: 'Novo conteúdo do comentário', example: 'Comentário editado.' })
+  @IsOptional()
   @IsString()
   content?: string;
-
-  @ApiPropertyOptional({ description: 'ID do autor do comentário', example: '123e4567-e89b-12d3-a456-426614174000' })
-  @IsUUID()
-  authorId?: string;
 }
 
 export class CommentResponse {

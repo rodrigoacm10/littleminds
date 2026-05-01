@@ -33,5 +33,12 @@ export {
 // AI
 export { AIModule, GeminiChatService } from './ai';
 
+// Auth
+export {
+  AuthModule,
+  JwtTokenService,
+  NodePasswordHasherService,
+} from './auth';
+
 // Module principal
 export { InfrastructureModule } from './infra.module';

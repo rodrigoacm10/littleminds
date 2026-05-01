@@ -1,12 +1,8 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsString, IsUUID } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsString } from 'class-validator';
 import { MessageRole } from '../../../domain';
 
 export class CreateConversationData {
-  @ApiProperty({ description: 'ID do usuário da conversa', example: '123e4567-e89b-12d3-a456-426614174000' })
-  @IsUUID()
-  userId: string;
-
   @ApiProperty({ description: 'Título da conversa', example: 'Dúvidas sobre desenvolvimento infantil' })
   @IsString()
   title: string;
@@ -16,10 +12,6 @@ export class UpdateConversationTitleData {
   @ApiProperty({ description: 'Novo título da conversa', example: 'Novo título da conversa' })
   @IsString()
   title: string;
-
-  @ApiPropertyOptional({ description: 'ID do usuário da conversa', example: '123e4567-e89b-12d3-a456-426614174000' })
-  @IsUUID()
-  userId?: string;
 }
 
 export class ConversationResponse {
@@ -59,10 +51,6 @@ export class ConversationSingleResponse {
 }
 
 export class SendMessageToConversationData {
-  @ApiProperty({ description: 'ID do usuario que esta enviando a mensagem', example: '123e4567-e89b-12d3-a456-426614174000' })
-  @IsUUID()
-  userId: string;
-
   @ApiProperty({ description: 'Conteudo da mensagem do usuario', example: 'Meu filho esta com dificuldade para dormir, o que posso observar primeiro?' })
   @IsString()
   content: string;

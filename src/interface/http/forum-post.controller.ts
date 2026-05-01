@@ -1,5 +1,5 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Query, HttpStatus, HttpCode } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiParam, ApiBody, ApiResponse, ApiQuery } from '@nestjs/swagger';
+import { Controller, Get, Post, Put, Delete, Body, Param, Query, HttpStatus, HttpCode, Req, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiParam, ApiBody, ApiResponse, ApiQuery, ApiBearerAuth } from '@nestjs/swagger';
 import { AgeGroup } from '../../domain';
 import {
   CreateForumPostUseCase,
@@ -9,6 +9,7 @@ import {
   DeleteForumPostUseCase,
 } from '../../application/use-cases';
 import { CreateForumPostData, UpdateForumPostData, ForumPostSingleResponse, ForumPostListResponse, ErrorResponse } from './dto';
+import { AuthenticatedRequest, JwtAuthGuard } from '../security';
 
 @ApiTags('ForumPosts')
 @Controller('forum-posts')
@@ -22,14 +23,18 @@ export class ForumPostController {
   ) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Criar um novo post no fórum' })
   @ApiBody({ type: CreateForumPostData })
   @ApiResponse({ status: 201, description: 'Post criado com sucesso', type: ForumPostSingleResponse })
   @ApiResponse({ status: 400, description: 'Dados inválidos', type: ErrorResponse })
-  async create(@Body() body: CreateForumPostData) {
+  async create(@Body() body: CreateForumPostData, @Req() request: AuthenticatedRequest) {
     const result = await this.createForumPostUseCase.execute({
-      ...body,
+      authorId: request.user.id,
+      title: body.title,
+      content: body.content,
       ageGroup: body.ageGroup as AgeGroup | undefined,
     });
     if (!result.success) {
@@ -62,16 +67,17 @@ export class ForumPostController {
   }
 
   @Put(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Atualizar post do fórum' })
   @ApiParam({ name: 'id', description: 'ID do post', example: 'forum12345-e89b-12d3-a456-426614174006' })
-  @ApiQuery({ name: 'requesterId', required: false, description: 'ID de quem está fazendo a requisição', example: '123e4567-e89b-12d3-a456-426614174000' })
   @ApiBody({ type: UpdateForumPostData })
   @ApiResponse({ status: 200, description: 'Post atualizado com sucesso', type: ForumPostSingleResponse })
   @ApiResponse({ status: 404, description: 'Post não encontrado', type: ErrorResponse })
-  async update(@Param('id') id: string, @Body() body: UpdateForumPostData, @Query('requesterId') requesterId?: string) {
+  async update(@Param('id') id: string, @Body() body: UpdateForumPostData, @Req() request: AuthenticatedRequest) {
     const result = await this.updateForumPostUseCase.execute({
       id,
-      requesterId: requesterId || body.authorId!,
+      requesterId: request.user.id,
       title: body.title,
       content: body.content,
       ageGroup: body.ageGroup as AgeGroup | undefined,
@@ -80,14 +86,15 @@ export class ForumPostController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Deletar post do fórum' })
   @ApiParam({ name: 'id', description: 'ID do post', example: 'forum12345-e89b-12d3-a456-426614174006' })
-  @ApiQuery({ name: 'requesterId', required: false, description: 'ID de quem está fazendo a requisição', example: '123e4567-e89b-12d3-a456-426614174000' })
   @ApiResponse({ status: 204, description: 'Post deletado com sucesso' })
   @ApiResponse({ status: 404, description: 'Post não encontrado', type: ErrorResponse })
-  async remove(@Param('id') id: string, @Query('requesterId') requesterId?: string) {
-    const result = await this.deleteForumPostUseCase.execute({ id, requesterId: requesterId! });
+  async remove(@Param('id') id: string, @Req() request: AuthenticatedRequest) {
+    const result = await this.deleteForumPostUseCase.execute({ id, requesterId: request.user.id });
     return result;
   }
 }

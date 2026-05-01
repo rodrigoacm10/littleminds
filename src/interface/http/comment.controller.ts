@@ -1,5 +1,5 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Query, HttpStatus, HttpCode } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiParam, ApiBody, ApiResponse, ApiQuery } from '@nestjs/swagger';
+import { Controller, Get, Post, Put, Delete, Body, Param, Query, HttpStatus, HttpCode, Req, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiParam, ApiBody, ApiResponse, ApiQuery, ApiBearerAuth } from '@nestjs/swagger';
 import {
   CreateCommentUseCase,
   FindCommentByIdUseCase,
@@ -8,6 +8,7 @@ import {
   DeleteCommentUseCase,
 } from '../../application/use-cases';
 import { CreateCommentData, UpdateCommentData, CommentSingleResponse, CommentListResponse, ErrorResponse } from './dto';
+import { AuthenticatedRequest, JwtAuthGuard } from '../security';
 
 @ApiTags('Comments')
 @Controller('comments')
@@ -21,13 +22,19 @@ export class CommentController {
   ) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Criar um novo comentário' })
   @ApiBody({ type: CreateCommentData })
   @ApiResponse({ status: 201, description: 'Comentário criado com sucesso', type: CommentSingleResponse })
   @ApiResponse({ status: 400, description: 'Dados inválidos', type: ErrorResponse })
-  async create(@Body() body: CreateCommentData) {
-    const result = await this.createCommentUseCase.execute(body);
+  async create(@Body() body: CreateCommentData, @Req() request: AuthenticatedRequest) {
+    const result = await this.createCommentUseCase.execute({
+      authorId: request.user.id,
+      content: body.content,
+      postId: body.postId,
+    });
     if (!result.success) {
       return { success: false, error: result.error };
     }
@@ -54,30 +61,32 @@ export class CommentController {
   }
 
   @Put(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Atualizar comentário' })
   @ApiParam({ name: 'id', description: 'ID do comentário', example: 'comment123-e89b-12d3-a456-426614174002' })
-  @ApiQuery({ name: 'requesterId', required: false, description: 'ID de quem está fazendo a requisição', example: '123e4567-e89b-12d3-a456-426614174000' })
   @ApiBody({ type: UpdateCommentData })
   @ApiResponse({ status: 200, description: 'Comentário atualizado com sucesso', type: CommentSingleResponse })
   @ApiResponse({ status: 404, description: 'Comentário não encontrado', type: ErrorResponse })
-  async update(@Param('id') id: string, @Body() body: UpdateCommentData, @Query('requesterId') requesterId?: string) {
+  async update(@Param('id') id: string, @Body() body: UpdateCommentData, @Req() request: AuthenticatedRequest) {
     const result = await this.updateCommentUseCase.execute({
       id,
-      requesterId: requesterId || body.authorId!,
+      requesterId: request.user.id,
       content: body.content!,
     });
     return result;
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Deletar comentário' })
   @ApiParam({ name: 'id', description: 'ID do comentário', example: 'comment123-e89b-12d3-a456-426614174002' })
-  @ApiQuery({ name: 'requesterId', required: false, description: 'ID de quem está fazendo a requisição', example: '123e4567-e89b-12d3-a456-426614174000' })
   @ApiResponse({ status: 204, description: 'Comentário deletado com sucesso' })
   @ApiResponse({ status: 404, description: 'Comentário não encontrado', type: ErrorResponse })
-  async remove(@Param('id') id: string, @Query('requesterId') requesterId?: string) {
-    const result = await this.deleteCommentUseCase.execute({ id, requesterId: requesterId! });
+  async remove(@Param('id') id: string, @Req() request: AuthenticatedRequest) {
+    const result = await this.deleteCommentUseCase.execute({ id, requesterId: request.user.id });
     return result;
   }
 }

@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsString, IsOptional, IsEnum, IsUUID } from 'class-validator';
+import { IsString, IsOptional, IsEnum } from 'class-validator';
 import { AgeGroup } from '../../../domain';
 
 export class CreateArticleData {
@@ -10,10 +10,6 @@ export class CreateArticleData {
   @ApiProperty({ description: 'Conteúdo do artigo', example: 'O desenvolvimento infantil é um processo...' })
   @IsString()
   content: string;
-
-  @ApiProperty({ description: 'ID do autor do artigo', example: '123e4567-e89b-12d3-a456-426614174000' })
-  @IsUUID()
-  authorId: string;
 
   @ApiPropertyOptional({ description: 'Resumo do artigo', example: 'Um guia sobre desenvolvimento infantil' })
   @IsOptional()
@@ -56,11 +52,6 @@ export class UpdateArticleData {
   @IsOptional()
   @IsEnum(AgeGroup)
   ageGroup?: AgeGroup;
-
-  @ApiPropertyOptional({ description: 'ID do autor do artigo', example: '123e4567-e89b-12d3-a456-426614174000' })
-  @IsOptional()
-  @IsUUID()
-  authorId?: string;
 }
 
 export class ArticleResponse {

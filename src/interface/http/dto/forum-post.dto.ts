@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsString, IsUUID, IsEnum, IsOptional } from 'class-validator';
+import { IsString, IsEnum, IsOptional } from 'class-validator';
 import { AgeGroup } from '../../../domain';
 
 export class CreateForumPostData {
@@ -10,10 +10,6 @@ export class CreateForumPostData {
   @ApiProperty({ description: 'Conteúdo do post', example: 'Gostaria de saber mais sobre métodos de alfabetização...' })
   @IsString()
   content: string;
-
-  @ApiProperty({ description: 'ID do autor do post', example: '123e4567-e89b-12d3-a456-426614174000' })
-  @IsUUID()
-  authorId: string;
 
   @ApiPropertyOptional({ description: 'Faixa etária relacionada', enum: AgeGroup, example: AgeGroup.CHILD })
   @IsOptional()
@@ -36,11 +32,6 @@ export class UpdateForumPostData {
   @IsOptional()
   @IsEnum(AgeGroup)
   ageGroup?: AgeGroup;
-
-  @ApiPropertyOptional({ description: 'ID do autor do post', example: '123e4567-e89b-12d3-a456-426614174000' })
-  @IsOptional()
-  @IsUUID()
-  authorId?: string;
 }
 
 export class ForumPostResponse {

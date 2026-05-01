@@ -1,5 +1,6 @@
 export * from './user.dto';
 export * from './article.dto';
+export * from './auth.dto';
 export * from './comment.dto';
 export * from './conversation.dto';
 export * from './message.dto';

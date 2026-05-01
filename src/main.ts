@@ -18,6 +18,8 @@ async function bootstrap() {
     .setTitle('Little Minds API')
     .setDescription('API para gestão de artigos, conversas, mensagens, fórum e usuários da plataforma Little Minds')
     .setVersion('1.0')
+    .addBearerAuth()
+    .addTag('Auth', 'Autenticacao e sessao')
     .addTag('Users', 'Operações de usuários')
     .addTag('Articles', 'Operações de artigos')
     .addTag('Comments', 'Operações de comentários')

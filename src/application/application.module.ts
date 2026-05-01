@@ -8,6 +8,8 @@ import {
   FindAllUsersUseCase,
   UpdateUserUseCase,
   DeleteUserUseCase,
+  LoginUseCase,
+  RegisterUseCase,
   // ForumPost
   CreateForumPostUseCase,
   FindForumPostByIdUseCase,
@@ -78,6 +80,8 @@ import {
     FindAllUsersUseCase,
     UpdateUserUseCase,
     DeleteUserUseCase,
+    LoginUseCase,
+    RegisterUseCase,
     // ForumPost Use Cases
     CreateForumPostUseCase,
     FindForumPostByIdUseCase,
@@ -135,6 +139,8 @@ import {
     FindAllUsersUseCase,
     UpdateUserUseCase,
     DeleteUserUseCase,
+    LoginUseCase,
+    RegisterUseCase,
     // ForumPost Use Cases
     CreateForumPostUseCase,
     FindForumPostByIdUseCase,
