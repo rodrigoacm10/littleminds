@@ -49,9 +49,12 @@ import {
   DeleteMessageUseCase,
   RestoreMessageUseCase,
   // MessageVersion
+  CreateMessageVersionUseCase,
   FindMessageVersionByIdUseCase,
+  FindAllMessageVersionsUseCase,
   FindMessageHistoryUseCase,
   FindCurrentMessageContentUseCase,
+  DeleteMessageVersionUseCase,
 } from './use-cases';
 
 /**
@@ -115,9 +118,12 @@ import {
     DeleteMessageUseCase,
     RestoreMessageUseCase,
     // MessageVersion Use Cases
+    CreateMessageVersionUseCase,
     FindMessageVersionByIdUseCase,
+    FindAllMessageVersionsUseCase,
     FindMessageHistoryUseCase,
     FindCurrentMessageContentUseCase,
+    DeleteMessageVersionUseCase,
   ],
   exports: [
     // User Use Cases
@@ -168,9 +174,12 @@ import {
     DeleteMessageUseCase,
     RestoreMessageUseCase,
     // MessageVersion Use Cases
+    CreateMessageVersionUseCase,
     FindMessageVersionByIdUseCase,
+    FindAllMessageVersionsUseCase,
     FindMessageHistoryUseCase,
     FindCurrentMessageContentUseCase,
+    DeleteMessageVersionUseCase,
   ],
 })
 export class ApplicationModule {}
