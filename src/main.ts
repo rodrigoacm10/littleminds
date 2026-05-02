@@ -5,6 +5,23 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const allowedOrigins = new Set([
+    'https://littleminds-front.vercel.app',
+    'http://localhost:5173',
+  ]);
+
+  app.enableCors({
+    origin: (origin, callback) => {
+      if (!origin) {
+        callback(null, true);
+        return;
+      }
+
+      const normalizedOrigin = origin.endsWith('/') ? origin.slice(0, -1) : origin;
+      callback(null, allowedOrigins.has(normalizedOrigin));
+    },
+    credentials: true,
+  });
 
   app.useGlobalPipes(
     new ValidationPipe({
